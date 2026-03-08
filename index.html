@@ -41,7 +41,7 @@
             text-align: center;
             padding-top: 30px;
             margin-top: 10px;
-            background-color: #222;
+            background-color: #22222280;
             color: #ccc;
         }
 
@@ -76,8 +76,6 @@
     </div>
 
     <script>
-
-        // Init variables and resources
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
@@ -91,7 +89,6 @@
         let recordingLength = 0;
         let saveCounter = 1;
 
-        // Helper function
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -106,7 +103,6 @@
             document.getElementById('sizeCounter').innerText = `Size: ${bytes} bytes`;
         }
 
-        // Handle pointer events (mouse, pen, touch)
         function startRecording(event) {
             recording = true;
             isPlaying = false;
@@ -129,38 +125,32 @@
             mouseY = event.clientY || event.touches[0].clientY;
         }
 
-        // Pointer events to handle mouse, pen and touch
         canvas.addEventListener('pointerdown', function(event) {
             if (event.pointerType === 'mouse' || event.pointerType === 'pen' || event.pointerType === 'touch') {
                 startRecording(event);
             }
         });
 
-        canvas.addEventListener('pointerup', function(event) {
-            if (event.pointerType === 'mouse' || event.pointerType === 'pen' || event.pointerType === 'touch') {
-                stopRecording();
-            }
+        window.addEventListener('pointerup', function(event) {
+            if (recording) stopRecording();
         });
 
-        canvas.addEventListener('pointermove', function(event) {
-            if (event.pointerType === 'mouse' || event.pointerType === 'pen' || event.pointerType === 'touch') {
-                updatePosition(event);
-            }
+        window.addEventListener('pointermove', function(event) {
+            if (recording) updatePosition(event);
         });
 
-        // Touch events to handle touch input
         canvas.addEventListener('touchstart', function(event) {
-            event.preventDefault(); // Prevent scrolling
+            event.preventDefault();
             startRecording(event);
         });
 
         canvas.addEventListener('touchend', function(event) {
-            event.preventDefault(); // Prevent scrolling
+            event.preventDefault();
             stopRecording();
         });
 
         canvas.addEventListener('touchmove', function(event) {
-            event.preventDefault(); // Prevent scrolling
+            event.preventDefault();
             updatePosition(event);
         });
 
@@ -237,15 +227,12 @@
             loadMotionFromFile(file);
         });
 
-        // Main loop
         function mainLoop() {
-            draw(); // Do this once per display refresh 
-            requestAnimationFrame(mainLoop); // Re-trig itself, so basically we have a retro-style raster-interrupt loop now
+            draw();
+            requestAnimationFrame(mainLoop);
         }
-        
-        // We need to trig the loop manually the first time
+
         mainLoop();
-     
     </script>
 </body>
 </html>
