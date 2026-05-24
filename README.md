@@ -1,6 +1,7 @@
 # Tiny Motion Capture & Playback
 
 A minimal, dependency-free JavaScript tool for capturing and replaying pointer-based motion (mouse, touch, or pen). Designed for creative coding, animation prototyping, UI testing, or just fun gesture experiments.
+Try Here: [nyseer1.github.io/Record-Motion/](https://nyseer1.github.io/Record-Motion/)
 
 ## Features
 
@@ -32,7 +33,7 @@ Recorded motions are stored as an array of `{ x, y }` objects:
 ```
 
 ## Live demo:
-[https://mrsoderman.github.io/Record-Motion/](https://mrsoderman.github.io/Record-Motion/)
+[nyseer1.github.io/Record-Motion/](https://nyseer1.github.io/Record-Motion/)
 
 ## Resources
 
