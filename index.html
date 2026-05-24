@@ -67,6 +67,7 @@
     <canvas id="gameCanvas"></canvas>
 
     <div id="ui">
+        <h3>Target FPS: <span id="myText"></span></h3>
         <button onclick="saveMotion()">Save Motion</button>
         <div id="drop_zone">
             Drag and drop saved motion file here to load
@@ -88,6 +89,14 @@
         let mouseY = 0;
         let recordingLength = 0;
         let saveCounter = 1;
+
+        //FPS CAP
+        const targetFPS = 60; 
+        const targetFrameDuration = 1000 / targetFPS; // ~16.67ms  
+        let lastTime = 0;  
+        document.getElementById("myText").innerHTML = targetFPS;
+
+
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -153,6 +162,24 @@
             event.preventDefault();
             updatePosition(event);
         });
+
+        // ANIMATION ----------------------------------------------------------------------------------------------------------
+
+        function animate(currentTime) {  
+        // Calculate time since last frame  
+        const elapsed = currentTime - lastTime;  
+        
+        // Only update/draw if enough time has passed (clamps to each 1/60th second for consistent 60fps)
+        if (elapsed >= targetFrameDuration) {  
+            lastTime = currentTime - (elapsed % targetFrameDuration); // Account for excess time  
+        
+            // Update(reset/clear canvas) and draw
+            draw();
+        }
+        
+        // Always request next frame, even if nothing was changed
+        requestAnimationFrame(animate);
+        }
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -227,12 +254,8 @@
             loadMotionFromFile(file);
         });
 
-        function mainLoop() {
-            draw();
-            requestAnimationFrame(mainLoop);
-        }
+        requestAnimationFrame(animate);
 
-        mainLoop();
     </script>
 </body>
 </html>
